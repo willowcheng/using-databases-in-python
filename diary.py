@@ -3,6 +3,8 @@ __author__ = 'willowcheng'
 # !/usr/bin/env python3
 from collections import OrderedDict
 import datetime
+import sys
+
 from peewee import *
 
 db = SqliteDatabase('diary.db')
@@ -37,6 +39,13 @@ def menu_loop():
 
 def add_entry():
     """Add an entry"""
+    print("Enter your entry. Press ctrl+d when finished.")
+    data = sys.stdin.read().strip()
+
+    if data:
+        if input('Save entry? [Yn] ').lower() != 'n':
+            Entry.create(content=data)
+            print("Saved successfully!")
 
 
 def view_entries():
@@ -45,6 +54,7 @@ def view_entries():
 
 def delete_entry(entry):
     """Delete an entry"""
+
 
 menu = OrderedDict([('a', add_entry), ('v', view_entries)])
 
