@@ -2,6 +2,7 @@ __author__ = 'willowcheng'
 
 from collections import OrderedDict
 import datetime
+import os
 import sys
 
 from peewee import *
@@ -33,6 +34,7 @@ def menu_loop():
         choice = input('Actions: ').lower().strip()
 
         if choice in menu:
+            clear()
             menu[choice]()
 
 
@@ -55,9 +57,11 @@ def view_entries(search_query=None):
 
     for entry in entries:
         timestamp = entry.timestamp.strftime('%A %B %d, %Y %I:%M%p')
+        clear()
         print(timestamp)
         print('='*len(timestamp))
         print(entry.content)
+        print('\n\n' + '='*len(timestamp))
         print('n) next entry')
         print('d) delete entry')
         print('q) return to main menu')
@@ -78,6 +82,9 @@ def delete_entry(entry):
     if input("Are you sure? [yN] ").lower() == 'y':
         entry.delete_instance()
         print("Entry deleted!")
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 menu = OrderedDict([('a', add_entry), ('v', view_entries), ('s', search_entries)])
